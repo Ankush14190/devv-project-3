@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Personality Report</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to top right, #2c3e50, #4ca1af);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    .box {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    strong {
+      color: #ffeb3b;
+    }
+  </style>
+</head>
+<body>
+  <h1>Your Personality Report</h1>
+  <div class="box" id="details">
+    <p>Loading...</p>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const letter = urlParams.get('letter')?.toUpperCase();
+
+    const profiles = {
+      A: {
+        personality: "Bold, ambitious, and full of leadership energy.",
+        behavior: "Takes charge quickly and doesn’t wait for permission.",
+        good: "Natural-born leader, inspires people with energy.",
+        bad: "Can be impatient or too dominating at times.",
+        emotional: "You believe deeply in loyalty, but often get hurt when others don’t match your sincerity."
+      },
+      B: {
+        personality: "Loving, peaceful, and emotionally intuitive.",
+        behavior: "Values connection and avoids conflict.",
+        good: "Cares deeply, brings harmony and emotional warmth.",
+        bad: "Can get hurt easily due to high sensitivity.",
+        emotional: "You often trust blindly and hold on even when others let go."
+      },
+      C: {
+        personality: "Creative and calm with a smart approach to life.",
+        behavior: "Observes silently before speaking or acting.",
+        good: "Has sharp instincts and artistic flair.",
+        bad: "Sometimes too quiet, and hides feelings.",
+        emotional: "You struggle to open up, but your emotions run deep and intense."
+      },
+      D: {
+        personality: "Determined and disciplined with strong ethics.",
+        behavior: "Organized and focused on responsibilities.",
+        good: "Reliable in every situation.",
+        bad: "May be too serious or resistant to change.",
+        emotional: "You crave stability but fear being taken for granted."
+      },
+      E: {
+        personality: "Energetic, expressive, and enthusiastic.",
+        behavior: "Always engaging and full of life.",
+        good: "Lights up rooms with positivity.",
+        bad: "Can be too emotional or scattered.",
+        emotional: "Your excitement is real, but sometimes people don’t see the struggles behind your smile."
+      },
+      F: {
+        personality: "Faithful and nurturing.",
+        behavior: "Puts others first and cares from the heart.",
+        good: "Emotionally supportive and trustworthy.",
+        bad: "Can forget to care for themselves.",
+        emotional: "You often give too much and receive too little, but never stop loving deeply."
+      },
+      G: {
+        personality: "Grounded and generous.",
+        behavior: "Balances logic and emotion well.",
+        good: "Wise and humble, yet strong.",
+        bad: "Sometimes overthinks or avoids risk.",
+        emotional: "You may look stable, but you silently battle emotional storms."
+      },
+      H: {
+        personality: "Hardworking and honest.",
+        behavior: "Straightforward and disciplined.",
+        good: "Always reliable and direct.",
+        bad: "Struggles with expressing emotions.",
+        emotional: "You carry burdens quietly, hoping others never see your vulnerability."
+      },
+      I: {
+        personality: "Independent and insightful.",
+        behavior: "Doesn’t rely much on others.",
+        good: "Strong-willed and wise.",
+        bad: "Keeps too much to themselves.",
+        emotional: "Your silence hides a world of emotion you’re afraid to show."
+      },
+      J: {
+        personality: "Joyful and just-hearted.",
+        behavior: "Lively with a fair mind.",
+        good: "Brings energy and fairness to all situations.",
+        bad: "Can be impulsive or inconsistent.",
+        emotional: "Your cheerful face hides how often you feel unappreciated."
+      },
+      K: {
+        personality: "Kind and clever.",
+        behavior: "Solves problems with grace and empathy.",
+        good: "Supports others without expecting in return.",
+        bad: "Can feel overlooked or used.",
+        emotional: "You quietly help others but rarely ask for help yourself."
+      },
+      L: {
+        personality: "Loyal and loving.",
+        behavior: "Deeply values relationships and truth.",
+        good: "Stands by people through thick and thin.",
+        bad: "Can be jealous or overly emotional.",
+        emotional: "You love deeply, but fear losing people more than anything."
+      },
+      M: {
+        personality: "Motivated and mindful.",
+        behavior: "Works with purpose and care.",
+        good: "Efficient, focused, and passionate.",
+        bad: "Sometimes too intense or perfectionist.",
+        emotional: "You push yourself hard, but secretly need someone to ask if you're okay."
+      },
+      N: {
+        personality: "Noble and nurturing.",
+        behavior: "Supports silently, gives without showing off.",
+        good: "Selfless and dependable.",
+        bad: "Can suppress emotions too much.",
+        emotional: "You act strong for others, even when you feel empty inside."
+      },
+      O: {
+        personality: "Optimistic and open-hearted.",
+        behavior: "Sees the best in everyone.",
+        good: "Creates joy around them.",
+        bad: "Too trusting at times.",
+        emotional: "Your kind nature is often misunderstood, and you’re left wondering why."
+      },
+      P: {
+        personality: "Passionate and powerful-minded.",
+        behavior: "Acts with intensity and conviction.",
+        good: "Determined and emotional in balance.",
+        bad: "Can be stubborn or overly controlling.",
+        emotional: "You care deeply but fear being abandoned or betrayed."
+      },
+      Q: {
+        personality: "Quiet but quirky.",
+        behavior: "Surprises people with creativity.",
+        good: "Unique thinker with silent strength.",
+        bad: "Can feel like an outsider.",
+        emotional: "You often feel like no one truly gets you — but you’ve learned to live with it."
+      },
+      R: {
+        personality: "Responsible and realistic.",
+        behavior: "Handles life with maturity.",
+        good: "Strong-willed and practical.",
+        bad: "Can bottle up feelings.",
+        emotional: "You help others carry their burdens, but your own pain goes unseen."
+      },
+      S: {
+        personality: "Smart and sensitive.",
+        behavior: "Deeply emotional yet logical.",
+        good: "Balanced thinker and heart-driven soul.",
+        bad: "Can overanalyze everything.",
+        emotional: "You feel too much, but often can’t find the words to express it."
+      },
+      T: {
+        personality: "Trustworthy and thoughtful.",
+        behavior: "Cares deeply about right and wrong.",
+        good: "Always supportive, always kind.",
+        bad: "Sometimes emotionally reserved.",
+        emotional: "You give others everything, but rarely open up fully in return."
+      },
+      U: {
+        personality: "Unique and understanding.",
+        behavior: "Marches to their own rhythm.",
+        good: "Non-judgmental and free-spirited.",
+        bad: "Can feel disconnected or lonely.",
+        emotional: "You love from a distance, afraid to be hurt by closeness."
+      },
+      V: {
+        personality: "Vibrant and visionary.",
+        behavior: "Thinks big and loves deeply.",
+        good: "Motivates others with fire and passion.",
+        bad: "Can struggle with focus or insecurity.",
+        emotional: "You dream big but fear failure more than you admit."
+      },
+      W: {
+        personality: "Warm and wise.",
+        behavior: "Balances logic and kindness beautifully.",
+        good: "Soft-spoken but powerful in presence.",
+        bad: "Can hide pain behind politeness.",
+        emotional: "People think you’re always okay, but sometimes you wish they’d ask twice."
+      },
+      X: {
+        personality: "Mysterious and magnetic.",
+        behavior: "Reveals little but observes everything.",
+        good: "Unpredictable and intuitive.",
+        bad: "Keeps too many secrets.",
+        emotional: "You push people away so they don’t see the broken parts."
+      },
+      Y: {
+        personality: "Youthful and yearning.",
+        behavior: "Curious and open to growth.",
+        good: "Hopeful and adaptable.",
+        bad: "Can be insecure or scattered.",
+        emotional: "You try hard to fit in, but still feel like you don’t belong."
+      },
+      Z: {
+        personality: "Zesty and zealous.",
+        behavior: "Always chasing goals with energy.",
+        good: "Full of drive and spark.",
+        bad: "Can burn out or act impulsively.",
+        emotional: "You move fast to hide your emotional fears — but you still long for understanding."
+      }
+    };
+
+    const data = profiles[letter];
+    const box = document.getElementById("details");
+
+    if (data) {
+      box.innerHTML = `
+        <p><strong>🌟 Personality:</strong> ${data.personality}</p>
+        <p><strong>🧠 Behavior:</strong> ${data.behavior}</p>
+        <p><strong>👍 Good Quality:</strong> ${data.good}</p>
+        <p><strong>⚠️ Weakness:</strong> ${data.bad}</p>
+        <p><strong>😢 Emotional Insight:</strong> ${data.emotional}</p>
+      `;
+    } else {
+      box.innerHTML = "<p>Sorry, no data found for this letter.</p>";
+    }
+  </script>
+</body>
+</html>
